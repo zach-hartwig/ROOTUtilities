@@ -1,0 +1,64 @@
+////////////////////////////////////////////////////////////////////////////
+//
+// name: rootlogon
+// date: 04 Jul 14
+// auth: Zach Hartwig
+//
+// desc: Customized C++ startup script for ROOT in lieu of the
+//       standard splash screen. This scripts alerts the user to 
+//       ROOT version, loads customized classes, and sets graphical
+//       defaults for a standardized style. This file should be moved
+//       to : $(HOME)/.rootlogon
+//
+////////////////////////////////////////////////////////////////////////////
+{
+
+  /////////////////////////////
+  // Customized startup text //
+  /////////////////////////////
+
+  cout << "\n  ********************************************************\n"
+       <<   "  ***            Welcome to "
+       << "\033[1;96m" << "ROOT" << "\033[0;97m" << " v" << gROOT->GetVersion() << "              ***"
+       << "\n  ********************************************************\n"
+       << endl;
+
+  /////////////////////////////////////////
+  // Compile and load customized classes //
+  /////////////////////////////////////////
+
+  cout << "  --> Compiling and loading customized classes : " << flush;
+
+  cout << "ZLegend" << endl;
+  gROOT->ProcessLine(".L ZLegend.cc+");	
+
+  ///////////////////////////////////
+  // Set custom graphical defaults //
+  ///////////////////////////////////
+
+  cout << "  --> Configuring graphical defaults\n" << endl;
+
+  gStyle->SetLabelSize(0.06,"X");
+  gStyle->SetTitleXSize(0.06);
+  gStyle->SetTitleXOffset(1.05);
+  gStyle->SetNdivisions(505,"X");
+
+  gStyle->SetLabelSize(0.06,"Y");
+  gStyle->SetTitleYSize(0.06);
+  gStyle->SetTitleYOffset(1.);
+  gStyle->SetNdivisions(505,"Y");
+
+  gStyle->SetTitleSize(0.06,"P");
+
+  gStyle->SetEndErrorSize(5);
+  
+  gStyle->SetPadTopMargin(0.08);
+  gStyle->SetPadBottomMargin(0.13);
+  gStyle->SetPadRightMargin(0.08);
+  gStyle->SetPadLeftMargin(0.13);
+
+  gStyle->SetHistLineWidth(2);
+  gStyle->SetHistLineColor(kBlue);
+
+
+}	

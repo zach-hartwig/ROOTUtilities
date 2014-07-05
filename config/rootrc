@@ -1,0 +1,41 @@
+##########################################################################
+#
+# name: rootrc
+# auth: Zach Hartwig
+# date: 04 Jul 14
+#
+# desc: Custom configuration file for the ROOT environment that is
+#       used across my current set of computers for standardization.
+#       Custom utility scripts should be located in the directory : 
+#       $HOME/root/RootUtilities/scripts/. Other custom classes should be 
+#       located in directories $HOME/root/RootUtilities/classes/<name>/, 
+#	where <name> is the class name. See also the .rootlogon file, which 
+#       is part of the setup routine. 
+#
+#       After Git clode, this file should be copied to : $(HOME)/.rootrc
+#
+##########################################################################
+
+#
+# Directories holding root scripts for run-time access
+#
+Unix.*.Root.MacroPath:  .:$(HOME)/root/RootUtilities/scripts/:$(HOME)/root/RootUtilities/classes/ZLegend/:
+
+#
+# Directories for dynamic library linking
+#
+Unix.*.Root.DynamicPath:    .:
+
+#
+# The customized ROOT startup script
+#
+Rint.Logon: $(HOME)/.rootlogon
+
+#
+# Setting default terminal colors
+#
+Rint.TypeColor:        bold #ff1fff
+Rint.BracketColor:     bold #93db70
+Rint.BadBracketColor:  bold #ff0000
+Rint.PromptColor:      default
+Rint.TabComColor:      #ffff77
