@@ -29,8 +29,11 @@
 
   cout << "  --> Compiling and loading customized classes : " << flush;
 
-  cout << "ZLegend" << endl;
+  cout << "ZLegend" << flush;
   gROOT->ProcessLine(".L ZLegend.cc+");	
+
+  cout << " ZHistManager" << endl;
+  gROOT->ProcessLine(".L ZHistManager.cc+");	
 
   ///////////////////////////////////
   // Set custom graphical defaults //

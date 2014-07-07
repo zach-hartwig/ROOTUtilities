@@ -19,7 +19,7 @@
 #
 # Directories holding root scripts for run-time access
 #
-Unix.*.Root.MacroPath:  .:$(HOME)/root/RootUtilities/scripts/:$(HOME)/root/RootUtilities/classes/ZLegend/:
+Unix.*.Root.MacroPath:  .:$(HOME)/root/RootUtilities/scripts:$(HOME)/root/RootUtilities/classes/ZLegend/:$(HOME)/root/RootUtilities/classes/ZHistManager/:
 
 #
 # Directories for dynamic library linking
