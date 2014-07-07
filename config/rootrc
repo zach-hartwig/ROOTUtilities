@@ -12,14 +12,16 @@
 #	where <name> is the class name. See also the .rootlogon file, which 
 #       is part of the setup routine. 
 #
-#       After Git clode, this file should be copied to : $(HOME)/.rootrc
+#       After Git clone, this file should be copied to : $(HOME)/.rootrc. 
+#       The 'Install.sh' script is provided in the top-level repo directory
+#       for this purpose.
 #
 ##########################################################################
 
 #
 # Directories holding root scripts for run-time access
 #
-Unix.*.Root.MacroPath:  .:$(HOME)/root/RootUtilities/scripts:$(HOME)/root/RootUtilities/classes/ZLegend/:$(HOME)/root/RootUtilities/classes/ZHistManager/:
+Unix.*.Root.MacroPath:  .:$(HOME)/root/ROOTUtilities/scripts:$(HOME)/root/ROOTUtilities/classes/ZLegend/:$(HOME)/root/ROOTUtilities/classes/ZHistManager/:
 
 #
 # Directories for dynamic library linking
