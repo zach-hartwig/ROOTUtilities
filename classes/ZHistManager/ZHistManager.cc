@@ -161,6 +161,9 @@ void ZHistManager::LoadData()
 TH1D *ZHistManager::FillHistogram(int Column)
 {
   if(CheckColumnNumber(Column)){
+    if(HistExists)
+      CreateHistogram();
+    
     vector<double>::iterator it = Data[Column].begin();
     for(; it!=Data[Column].end(); it++)
       Hist_H->Fill((*it));
@@ -177,6 +180,9 @@ TH1D *ZHistManager::FillHistogramWithCondition(int FColumn,
 					       double CValue)
 {
   if(CheckColumnNumber(FColumn) and CheckColumnNumber(CColumn)){
+    if(HistExists)
+      CreateHistogram();
+    
     vector<double>::iterator it = Data[FColumn].begin();
     for(; it!=Data[FColumn].end(); it++)
       if(Data[CColumn][it - Data[FColumn].begin()] == CValue)
@@ -195,6 +201,9 @@ TH1D *ZHistManager::FillHistogramWithRange(int FColumn,
 					   double RMax)
 {
   if(CheckColumnNumber(FColumn) and CheckColumnNumber(RColumn)){
+    if(HistExists)
+      CreateHistogram();
+    
     vector<double>::iterator it = Data[FColumn].begin();
     for(; it!=Data[FColumn].end(); it++){
       int Idx = it - Data[FColumn].begin();
