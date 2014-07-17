@@ -1,8 +1,8 @@
-int scopePlot(string FName, int Channels=1){
+TGraph *scopePlot(string FName, int Channels=1, int DataReduction=1){
 
   const int Ch = Channels;
 
-  const double s2ns = 1;//1e9;
+  const double s2ns = 1e9;
 
   TGraph *G = new TGraph;
 
@@ -46,9 +46,9 @@ int scopePlot(string FName, int Channels=1){
 	continue;
       
       double X = atof(Token[0].c_str()) * s2ns;
-      double Y = atof(Token[1].c_str()) + 0.12;
-
-      if(LineNum % 500 == 0){
+      double Y = atof(Token[1].c_str());
+      
+      if(LineNum % DataReduction == 0){
 	G->SetPoint(Point, X, Y);		 
 	Point++;
       }
@@ -66,12 +66,7 @@ int scopePlot(string FName, int Channels=1){
   G->GetXaxis()->SetTitle("Time [ns]");
   G->GetYaxis()->SetTitle("Voltage [V]");
 
-  F = new TFile("~/test.root","recreate");
-  G->Write("Trace");
-  F->Write();
-  F->Close();
-
   C->Update();
 
-  return 0;
+  return G;
 }
