@@ -1,8 +1,9 @@
 # name: Makefile
-# date: 17 Jul 14
+# date: 25 Jul 14
 # auth: Zach Hartwig
 # mail: hartwig@psfc.mit.edu
-# desc: Template GNU makefile for compiling ROOT-based projects
+# desc: Template GNU makefile for compiling ROOT-based projects with
+#       a graphical interface template and code-layout setup
 
 
 ####################
@@ -21,7 +22,7 @@ INCLDIR = $(PWD)/include
 BUILDDIR = $(PWD)/build
 
 # Specify the object files
-OBJS = $(BUILDDIR)/Template.o $(BUILDDIR)/TemplateClass.o $(BUILDDIR)/TemplateClassDict.o
+OBJS = $(BUILDDIR)/GUITemplate.o $(BUILDDIR)/InterfaceBuilder.o $(BUILDDIR)/SignalsHandler.o $(BUILDDIR)/GUITemplateDict.o
 
 # Specify directories for header files and libraries
 INCL = -I$(INCLDIR)/
@@ -32,7 +33,7 @@ CXX = clang++
 CXXFLAGS +=
 
 # Specifcy the final binary name
-TARGET = Template
+TARGET = GUITemplate
 
 
 ###################
@@ -45,20 +46,24 @@ $(TARGET) : $(OBJS)
 	$(CXX) $(CXXFLAGS) -o $@ $^ $(ROOTLIB) $(ROOTGLIBS)
 	@echo -e "\n$@ build is complete!\n"
 
-$(BUILDDIR)/Template.o : Template.cc
+$(BUILDDIR)/GUITemplate.o : GUITemplate.cc
 	@echo -e "\nBuilding $@ ..."
 	$(CXX) $(CXXFLAGS) $(INCL) -c -o $@ $<
 
-$(BUILDDIR)/TemplateClass.o : $(SRCDIR)/TemplateClass.cc $(INCLDIR)/TemplateClass.hh
+$(BUILDDIR)/InterfaceBuilder.o : $(SRCDIR)/InterfaceBuilder.cc $(INCLDIR)/InterfaceBuilder.hh
 	@echo -e "\nBuilding $@ ..."
 	$(CXX) $(CXXFLAGS) $(INCL) -c -o $@ $<
 
-$(BUILDDIR)/TemplateClassDict.o : $(BUILDDIR)/TemplateClassDict.cc
+$(BUILDDIR)/SignalsHandler.o : $(SRCDIR)/SignalsHandler.cc $(INCLDIR)/SignalsHandler.hh
+	@echo -e "\nBuilding $@ ..."
+	$(CXX) $(CXXFLAGS) $(INCL) -c -o $@ $<
+
+$(BUILDDIR)/GUITemplateDict.o : $(BUILDDIR)/GUITemplateDict.cc
 	@echo -e "\nBuilding $@ ..."
 	$(CXX) $(CXXFLAGS) $(INCL) -c -o $@ $<
 
 # Rule(s) to generate ROOT dictionary should be placed here
-$(BUILDDIR)/TemplateClassDict.cc : $(INCLDIR)/TemplateClass.hh $(INCLDIR)/RootLinkDef.hh
+$(BUILDDIR)/GUITemplateDict.cc : $(INCLDIR)/InterfaceBuilder.hh $(INCLDIR)/SignalsHandler.hh $(INCLDIR)/RootLinkDef.hh
 	@echo -e "\nGenerating ROOT dictionary $@ ..."
 	rootcint -f $@ -c $(INCL) $^
 

@@ -66,6 +66,12 @@ TGraph *scopePlot(string FName, int Channels=1, int DataReduction=1){
   G->GetXaxis()->SetTitle("Time [ns]");
   G->GetYaxis()->SetTitle("Voltage [V]");
 
+  string Name = FName + "_Graph";
+
+  F = new TFile(Name.c_str(),"recreate");
+  G->Write("Graph");
+  F->Close();
+
   C->Update();
 
   return G;
