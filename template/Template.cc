@@ -9,20 +9,21 @@
 //        objects. It is not necessary if you are only using ROOT
 //        classes for computation and cmd line output
 
-#include <TApplication.h>
+#include <TRint.h>
 
 #include "TemplateClass.hh"
 
 
 int main(int argc, char *argv[])
 {
-  TApplication *TheApplication = new TApplication("TheApplication", &argc, argv);
+  TRint *TheROOTSession = new TRint("TheROOTSession", &argc, argv);
 
   ///////////////////////////
   // Source code goes here //
   ///////////////////////////
 
-  TheApplication->Run();
+  // Drop user to ROOT cmd line after code execution
+  TheROOTSession->Run();
 
   return 0;
 }
