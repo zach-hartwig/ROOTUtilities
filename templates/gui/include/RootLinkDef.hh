@@ -13,7 +13,7 @@
 #pragma link off all functions;
 
 // Create dictionaries for the custom classes
-#pragma link C++ class SignalsHandler+;
+#pragma link C++ class SignalHandler+;
 #pragma link C++ class InterfaceBuilder+;
 
 

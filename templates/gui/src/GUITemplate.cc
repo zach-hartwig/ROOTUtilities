@@ -1,17 +1,15 @@
 // name: Template.cc
-// date: 17 Jul 14
+// date: 25 Jul 14
 // auth: Zach Hartwig
 // mail: hartwig@psfc.mit.edu
 //
-// desc: Template C++ main implementation file for ROOT-based
-//        projects. Note that the use of TApplication will start a
-//        continually running ROOT-session to display graphical
-//        objects. It is not necessary if you are only using ROOT
-//        classes for computation and cmd line output
-
+// desc: Template C++ main implementation file for ROOT-based projects
+//       with a graphical user interface (GUI). The code provide an
+//       easy way to rapidly develop GUI projects with all the
+//       infrastructure of a mature project (advanced GNU makefile,
+//       elegant directory strucutre, etc).
 
 #include <TApplication.h>
-
 
 #include "InterfaceBuilder.hh"
 

@@ -2,8 +2,8 @@
 # date: 25 Jul 14
 # auth: Zach Hartwig
 # mail: hartwig@psfc.mit.edu
-# desc: Template GNU makefile for compiling ROOT-based projects with
-#       a graphical interface template and code-layout setup
+# desc: GNU makefile for compiling ROOT-based projects for the
+#       graphical interface template with elegant directory structure
 
 
 ####################
@@ -16,57 +16,55 @@ ROOTSYS:=$(shell $(RC) --prefix)
 ROOTMAKE:=$(ROOTSYS)/etc/Makefile.arch
 include $(ROOTMAKE)
 
-# Specify the directory structure
+# Specify the directory structure. Note that the absolute path to the
+# 'include' directory is required to ensure that the generated includes
+# in the ROOT dictionary objects can find the header files
+BUILDDIR = build
 SRCDIR = src
 INCLDIR = $(PWD)/include
-BUILDDIR = $(PWD)/build
 
-# Specify the object files
-OBJS = $(BUILDDIR)/GUITemplate.o $(BUILDDIR)/InterfaceBuilder.o $(BUILDDIR)/SignalsHandler.o $(BUILDDIR)/GUITemplateDict.o
+# Automatically specify object files from source files
+TMP0 = $(wildcard src/*.cc) 
+TMP1 = $(patsubst %.cc,%.o,$(TMP0))
+OBJS = $(subst $(SRCDIR),$(BUILDDIR),$(TMP1))
+
+# Add required ROOT dictionary object file
+OBJS += $(BUILDDIR)/GUITemplateDict.o
 
 # Specify directories for header files and libraries
 INCL = -I$(INCLDIR)/
 LIB = 
 
-# Specify compile choice and flags
+# Specify compiler choice and flags
 CXX = clang++
 CXXFLAGS +=
 
-# Specifcy the final binary name
+# Specify the final binary name
 TARGET = GUITemplate
 
+# Specify general purpose dependencies
+DEPS = $(wildcard $(INCLDIR)/*.hh)
 
-###################
-# Write the rules #
-###################
 
-# Rules to generate the final binary and object files should be placed here
+###############
+# Build rules #
+###############
+
+# Rule to build and link the executable
 $(TARGET) : $(OBJS)
-	@echo -e "\nBuilding $@ ..."
+	@echo -e "\nGenerating $@ ..."
 	$(CXX) $(CXXFLAGS) -o $@ $^ $(ROOTLIB) $(ROOTGLIBS)
 	@echo -e "\n$@ build is complete!\n"
 
-$(BUILDDIR)/GUITemplate.o : GUITemplate.cc
-	@echo -e "\nBuilding $@ ..."
+# Rule to automatically generate object files from source files
+$(BUILDDIR)/%.o : $(SRCDIR)/%.cc $(DEPS)
+	@echo -e "\nGenerating object file $@ ..."
 	$(CXX) $(CXXFLAGS) $(INCL) -c -o $@ $<
 
-$(BUILDDIR)/InterfaceBuilder.o : $(SRCDIR)/InterfaceBuilder.cc $(INCLDIR)/InterfaceBuilder.hh
-	@echo -e "\nBuilding $@ ..."
-	$(CXX) $(CXXFLAGS) $(INCL) -c -o $@ $<
-
-$(BUILDDIR)/SignalsHandler.o : $(SRCDIR)/SignalsHandler.cc $(INCLDIR)/SignalsHandler.hh
-	@echo -e "\nBuilding $@ ..."
-	$(CXX) $(CXXFLAGS) $(INCL) -c -o $@ $<
-
-$(BUILDDIR)/GUITemplateDict.o : $(BUILDDIR)/GUITemplateDict.cc
-	@echo -e "\nBuilding $@ ..."
-	$(CXX) $(CXXFLAGS) $(INCL) -c -o $@ $<
-
-# Rule(s) to generate ROOT dictionary should be placed here
-$(BUILDDIR)/GUITemplateDict.cc : $(INCLDIR)/InterfaceBuilder.hh $(INCLDIR)/SignalsHandler.hh $(INCLDIR)/RootLinkDef.hh
+# Rule to generate ROOT dictionaries for custom classes
+$(BUILDDIR)/GUITemplateDict.cc : $(DEPS) $(INCLDIR)/RootLinkDef.hh
 	@echo -e "\nGenerating ROOT dictionary $@ ..."
 	rootcint -f $@ -c $(INCL) $^
-
 
 # Clean up the transient files and executable
 .PHONY:

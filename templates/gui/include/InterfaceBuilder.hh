@@ -3,8 +3,13 @@
 // auth: Zach Hartwig
 // mail: hartwig@psfc.mit.edu
 //
-// desc: 
-
+// desc: The InterfaceBuilder class handles the creation of the ROOT
+//       GUI widgets. The widgets provide the interface for the user
+//       to perform actions, i.e. to generate signals based on a
+//       graphical trigger. The generated "signals" are received by
+//       the "slots", where the code for specific actions is
+//       executed. To modularize the code the "slots" are handled by
+//       the SignalHandler class.
 #ifndef __InterfaceBuilder_hh__
 #define __InterfaceBuilder_hh__ 1
 
@@ -13,15 +18,18 @@
 #include <TGButton.h>
 #include <TColor.h>
 
-#include "SignalsHandler.hh"
+class SignalHandler;
+
 
 class InterfaceBuilder  : public TGMainFrame
 {
+  friend class SignalHandler;
+  
 public:
   InterfaceBuilder();
   ~InterfaceBuilder();
 
-  void CreateMainFrame();
+  void FillMainFrame();
 
   // Register the class with ROOT
   ClassDef(InterfaceBuilder, 0);
@@ -33,7 +41,7 @@ private:
   TRootEmbeddedCanvas *TheCanvas_EC;
   TGTextButton *Plot_TB, *Exit_TB;
 
-  SignalsHandler *TheHandler;
+  SignalHandler *TheHandler;
 };
 
 #endif
