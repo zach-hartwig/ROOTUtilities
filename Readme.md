@@ -5,7 +5,7 @@ that enhance my use of ROOT for a variety of scientific and analysis
 tasks.
 
 
-### RIPN (ROOT IPython Notebook ###
+### RIPN (ROOT IPython Notebook) ###
 
 The Python RIPN module is a collection of classes that enable ROOT
 graphics to be embedded inline within an IPython notebook. This
