@@ -21,7 +21,7 @@
 #
 # 2run: Ensure that the PyROOT libraries and  RIPN module is available
 #       to Python via environment configuration within .bashrc:
-#       'export PYTHONPATH=$ROOTSYS/lib:/home/solonite/root/ROOTUtilities/ipython:$PYTHONPATH'
+#       'export PYTHONPATH=$ROOTSYS/lib:$HOME/root/ROOTUtilities/ipython:$PYTHONPATH'
 #
 #       Then include include the following line within the IPython notebook:
 #       'from RIPN import ZNotebookCanvas'
@@ -39,6 +39,11 @@ class ZNotebookCanvas(TCanvas):
     def __init__(self, x=700, y=int(700./golden)):
         TCanvas.__init__(self, '', '', 0, 0, x, y)
 
+        # Image width and height
+        self.image_width = x
+        self.image_height = y
+
+        # Canvas margin defaults
         self.SetLeftMargin(0.12)
         self.SetRightMargin(0.92)
         self.SetTopMargin(0.92)
@@ -56,7 +61,7 @@ class ZNotebookCanvas(TCanvas):
 
         # Update the canvas
         self.Update()
-
+        
         image_extension = "." + self.image_type
 
         # Insert an SVG file into the notebook
@@ -65,15 +70,33 @@ class ZNotebookCanvas(TCanvas):
             self.Print(image_name)
             self.image = SVG(filename=image_name)
 
-        # Insert an
+        # Insert an JPG or an EPS file
         elif image_extension == '.jpg' or image_extension == '.png':
+
+            # Note that as of ROOT 5.34.24, TCanvas seems to have a
+            # bug where it cannot create PNG files when the TCanvas is
+            # created without a window. A temporary workaround is to
+            # produce an EPS file and then convert it to JPG/PNG
+
+            # Produce the EPS file
+            eps_name = self.image_file + ".eps"
+            self.Print(eps_name,"eps")
+            
+            # Convert to a JPG/PNG file in high resolution
+            convert_command = 'convert -density 300 /tmp/tmp.eps /tmp/tmp' + image_extension
+            os.system(convert_command)
+
+            # Insert the JPG/PNG into the notebook with the height/width specified
             image_name = self.image_file + image_extension
-            self.Print(image_name)
-            self.image = Image(filename=image_name, format=image_extension)
+            self.image = Image(filename=image_name, 
+                               format=image_extension, 
+                               width=self.image_width,
+                               height=self.image_height)
+            
+            # Remove the transient image files
+            # os.system('rm -f ' + self.image_file + ".*")
 
-        os.system('rm -f ' + self.image_file + image_extension)
-
-        return self.image
+            return self.image
 
 
     # Enable user to define the desired image type
