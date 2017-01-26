@@ -1,7 +1,7 @@
-# Installation notes for ROOT on Fedora 24
+1# Installation notes for ROOT on Fedora 24
 
 Name: Zach Hartwig  
-Date: 03 Nov 16  
+Date: 25 Jan 17 (Last updated)
 Mail: hartwig@psfc.mit.edu
 
 ## Helpful links
@@ -20,19 +20,19 @@ Installation assumes indepedent but system-wide location in /usr/local/root.
  0. Unzip the ROOT source tarball:
  ```bash
  # cd /root/local/root
- # mv ~/tmp/root_v6.06.08.source.tar.gz .
- # tar zxvf root_v6.06.08.source.tar.gz
+ # mv ~/tmp/root_v6.08.02.source.tar.gz .
+ # tar zxvf root_v6.08.02.source.tar.gz
  ```
 
  1. Create the out-of-source CMake build directory:
  ```bash
- # mkdir root-6.06.08-build
- # cd root-6.06.08-build
+ # mkdir root-6.08.02-build
+ # cd root-6.08.02-build
  ```
 
  2. Configure the CMake build:
  ```bash
- # cmake -DCMAKE_INSTALL_PREFIX=/usr/local/root/root-6.06.08 -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_CXX_FLAGS="-D_GLIBCXX_USE_CXX11_ABI=0" /usr/local/root/root-6.06.08
+ # cmake -DCMAKE_INSTALL_PREFIX=/usr/local/root/root-6.08.02 -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ /usr/local/root/root-6.08.02
  ```
 
  3. Build the source code in the build directory:
